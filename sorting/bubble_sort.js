@@ -13,13 +13,13 @@ let bubbleSort = (arr) => {
         arr[j] = temp;
       }
     }
-    console.log(arr);
     if (swaps === 0) return arr;
+    console.log(arr);
   }
   return arr;
 }
 
 var arr = [3, 6, 5, 4, 7, 8, 2];
 var arr = [3, 4, 5, 6, 7, 8, 2];
-var arr = [3, 4, 5, 6, 7, 8];
+// var arr = [3, 4, 5, 6, 7, 8];
 console.log(bubbleSort(arr)); 
