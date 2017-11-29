@@ -40,34 +40,6 @@ LinkedList.prototype.pop = function() {
   return this;
 }
 
-LinkedList.prototype.getIndex = function(value) {
-  let index = 1;
-  let current = this.head;
-  while (current) {
-    if (current.value === value) return index;
-    current = current.next;
-    index += 1;
-  }
-  return 'none';
-}
-
-LinkedList.prototype.delete = function(value) {
-  let current = this.head;
-  let previous = null;
-  while (current.value) {
-    if (current.value === value) {
-      if (!previous) return this.shift();
-      else if (!current.next) previous.next = null;
-      else previous.next = current.next;
-      this.count -= 1;
-      return this;
-    }
-    previous = current;
-    if (current.next) current = current.next;
-    else return this;
-  }
-}
-
 LinkedList.prototype.insert = function(value, index) {
   if (index < 1) throw new Error('Cannot insert into list position less than one'); 
   if (index > this.count + 1) throw new Error('Cannot insert into position beyond list size');
@@ -113,21 +85,68 @@ LinkedList.prototype.shift = function() {
   return this
 }
 
+LinkedList.prototype.delete = function(value) {
+  if (!this.count) return 'none';
+  let current = this.head;
+  let previous = null;
+  while (current) {
+    if (current.value === value) {
+      if (!previous) return this.shift();
+      else if (!current.next) previous.next = null;
+      else previous.next = current.next;
+      this.count -= 1;
+      return this;
+    }
+    previous = current;
+    current = current.next;
+  }
+  return 'none';
+}
+
+LinkedList.prototype.getIndex = function(value) {
+  let index = 1;
+  let current = this.head;
+  while (current) {
+    if (current.value === value) return index;
+    current = current.next;
+    index += 1;
+  }
+  return 'none';
+}
+
+LinkedList.prototype.iterate = function(callback) {
+  let current = this.head;
+  while (current) {
+    callback(current.value);
+    current = current.next;
+  }
+}
+
 var list1 = new LinkedList();
 list1.push(12);
 list1.push(22);
 list1.push(34);
 list1.push(87);
 list1.push(3);
-console.log(list1.length());
+// console.log(list1.length());
+// console.log(list1.length());
+console.log(JSON.stringify(list1));
+
+// list1.iterate(function(val) {
+//   console.log(val * 2);
+// });
+
+// console.log(list1.getIndex(100));
+// console.log(list1.getIndex(22));
+
+// list1.delete(22);
+// list1.delete(12);
 // list1.insert(66, 1);
 // list1.insert(66, -1);
 // list1.insert(66, 3);
 // list1.insert(66, 5);
-list1.insert(66, 6);
+// list1.insert(66, 6);
 // list1.insert(66, 8);
-console.log(list1.length());
-console.log(JSON.stringify(list1));
 
 // console.log(list1.getIndex(34));
 // list1.insert(66, 2);
