@@ -122,6 +122,21 @@ LinkedList.prototype.iterate = function(callback) {
   }
 }
 
+LinkedList.prototype.reverse = function() {
+  let current = this.head
+  let previous = null;
+  let next;
+
+  while (current) {
+    next = current.next;
+    current.next = previous;
+    previous = current;
+    current = next;
+  }
+
+  this.head = previous;
+}
+
 var list1 = new LinkedList();
 list1.push(12);
 list1.push(22);
@@ -129,6 +144,7 @@ list1.push(34);
 list1.push(87);
 list1.push(3);
 // console.log(list1.length());
+list1.reverse();
 // console.log(list1.length());
 console.log(JSON.stringify(list1));
 
