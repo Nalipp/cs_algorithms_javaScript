@@ -17,18 +17,7 @@ LinkedList.prototype.length = function() {
 }
 
 LinkedList.prototype.push = function(value) {
-  let newNode = new Node(value);
-
-  if (this.count) {
-    let current = this.head;
-    while (current.next) current = current.next;
-    current.next = newNode;
-  } else {
-    this.head = newNode;
-  }
-
-  this.count += 1;
-  return this;
+  return this.insert(value, this.count + 1);
 }
 
 LinkedList.prototype.pop = function() {
@@ -82,7 +71,6 @@ LinkedList.prototype.delete = function(value) {
 LinkedList.prototype.insert = function(value, index) {
   if (index < 1) throw new Error('Cannot insert into list position less than one'); 
   if (index > this.count + 1) throw new Error('Cannot insert into position beyond list size');
-  if (index === this.count + 1) return this.push(value);
   if (index === 1) return this.unshift(value);
 
   let newNode = new Node(value);
@@ -126,18 +114,18 @@ LinkedList.prototype.shift = function() {
 }
 
 var list1 = new LinkedList();
-list1.unshift(12);
-list1.unshift(22);
-list1.unshift(34);
-list1.unshift(87);
-list1.unshift(3);
+list1.push(12);
+list1.push(22);
+list1.push(34);
+list1.push(87);
+list1.push(3);
 console.log(list1.length());
-list1.pop();
-list1.pop();
-list1.pop();
-list1.pop();
-list1.pop();
-list1.pop();
+// list1.insert(66, 1);
+// list1.insert(66, -1);
+// list1.insert(66, 3);
+// list1.insert(66, 5);
+list1.insert(66, 6);
+// list1.insert(66, 8);
 console.log(list1.length());
 console.log(JSON.stringify(list1));
 
@@ -147,9 +135,3 @@ console.log(JSON.stringify(list1));
 
 // list1.shift();
 // list1.unshift(20);
-// list1.insert(66, 1);
-// list1.insert(66, -1);
-// list1.insert(66, 3);
-// list1.insert(66, 5);
-// list1.insert(66, 6);
-// list1.insert(66, 8);
