@@ -16,15 +16,38 @@ LinkedList.prototype.length = function() {
   return this.count;
 }
 
-LinkedList.prototype.append = function(value) {
+LinkedList.prototype.push = function(value) {
   let newNode = new Node(value);
-  if (!this.head) this.head = newNode;
-  else {
+
+  if (this.count) {
     let current = this.head;
     while (current.next) current = current.next;
     current.next = newNode;
+  } else {
+    this.head = newNode;
   }
+
   this.count += 1;
+  return this;
+}
+
+LinkedList.prototype.pop = function() {
+  if (!this.count) return this;
+  if (this.count === 1) this.head = null;
+  else if (this.count === 2) this.head.next = null;
+  else {
+    let previous = this.head;
+    let current = this.head.next;
+
+    while (current.next) {
+      previous = current;
+      current = current.next;
+    }
+
+    previous.next = null;
+  }
+
+  this.count -= 1;
   return this;
 }
 
@@ -57,7 +80,7 @@ LinkedList.prototype.delete = function(value) {
 }
 
 LinkedList.prototype.insert = function(value, index) {
-  if (index > this.length()) return this.append(value);
+  if (index > this.length()) return this.push(value);
   if (index <= 1) return this.insertFirst(value);
 
   let newNode = new Node(value);
@@ -94,17 +117,19 @@ LinkedList.prototype.insertFirst = function(value) {
 }
 
 LinkedList.prototype.deleteFirst = function() {
-  this.head = this.head.next;
+  if (!this.count) return this;
+  if (this.count === 1) this.head = null;
+  else this.head = this.head.next;
   this.count -= 1;
   return this
 }
 
 var list1 = new LinkedList();
-list1.append(12);
-list1.append(22);
-list1.append(34);
-list1.append(87);
-list1.append(3);
+list1.push(12);
+list1.push(22);
+list1.push(34);
+list1.push(87);
+list1.push(3);
 console.log(list1.length());
 console.log(list1.length());
 console.log(JSON.stringify(list1));
