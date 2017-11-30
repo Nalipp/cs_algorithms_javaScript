@@ -8,17 +8,17 @@ let Node = function(val) {
   this.previous = null;
 }
 
-let LinkedList = function() {
+let DoublyLinkedList = function() {
   this.head = null;
   this.tail = null;
   this.size = 0;
 }
 
-LinkedList.prototype.length = function() {
+DoublyLinkedList.prototype.length = function() {
   return this.size;
 }
 
-LinkedList.prototype.push = function(value) {
+DoublyLinkedList.prototype.push = function(value) {
   let newNode = new Node(value);
   if (this.size) {
     newNode.previous = this.tail;
@@ -33,7 +33,7 @@ LinkedList.prototype.push = function(value) {
   return this;
 }
 
-LinkedList.prototype.pop = function() {
+DoublyLinkedList.prototype.pop = function() {
   if (!this.count) throw new Error('Cannot remove from empty list');
   if (this.size === 1) {
     this.head = null;
@@ -52,7 +52,7 @@ LinkedList.prototype.pop = function() {
   return this;
 }
 
-LinkedList.prototype.unshift = function(value) {
+DoublyLinkedList.prototype.unshift = function(value) {
   let newNode = new Node(value);
   if (!this.size) {
     this.head = newNode;
@@ -67,7 +67,7 @@ LinkedList.prototype.unshift = function(value) {
   return this;
 }
 
-LinkedList.prototype.shift = function() {
+DoublyLinkedList.prototype.shift = function() {
   if (!this.size) throw new Error('Cannot remove from empty list');
   if (this.size === 1) {
     this.head = null;
@@ -85,7 +85,7 @@ LinkedList.prototype.shift = function() {
   return this;
 }
 
-LinkedList.prototype.print = function() {
+DoublyLinkedList.prototype.print = function() {
   let current = this.head;
   while (current) {
     console.log(current.val);
@@ -94,17 +94,23 @@ LinkedList.prototype.print = function() {
   return this;
 }
 
-let list1 = new LinkedList();
-list1.push(10);
-list1.push(20);
-list1.push(30);
-list1.print();
-console.log(list1.length()); 
-list1.unshift(5);
-list1.unshift();
-list1.shift();
-list1.shift();
-list1.shift();
-console.log(list1.length()); 
-console.log(list1);
+DoublyLinkedList.prototype.reverse = function() {
+  let current = this.head;
+  let previous = null;
+  let next = this.head.next;
 
+  while (current) {
+    let temp = current.next;
+    current.next = previous;
+    current.previous = next;
+    previous = current;
+    next = current.next;
+    current = temp;
+  }
+
+  let temp = this.head;
+  this.head = this.tail;
+  this.tail = temp;
+}
+
+let list1 = new DoublyLinkedList();
