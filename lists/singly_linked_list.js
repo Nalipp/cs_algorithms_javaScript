@@ -1,5 +1,5 @@
 // ****************************************************************************************************
-// linked list
+// singly linked list
 // ****************************************************************************************************
 
 let Node = function(value) {
@@ -123,18 +123,18 @@ LinkedList.prototype.iterate = function(callback) {
 }
 
 LinkedList.prototype.reverse = function() {
-  let current = this.head
+  let current = this.head;
   let previous = null;
-  let next;
+  let temp;
 
   while (current) {
-    next = current.next;
+    temp = current.next;
     current.next = previous;
     previous = current;
-    current = next;
+    current = temp;
   }
 
-  this.head = previous;
+  this.head = previous
 }
 
 var list1 = new LinkedList();

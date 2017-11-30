@@ -1,5 +1,5 @@
 // ****************************************************************************************************
-// stack
+// singly linked stack
 // ****************************************************************************************************
 
 let Node = function(value) {
@@ -9,6 +9,7 @@ let Node = function(value) {
 
 let Stack = function() {
   this.head = null;
+  this.count = 0;
 }
 
 Stack.prototype.push = function(value) {
@@ -19,26 +20,39 @@ Stack.prototype.push = function(value) {
     while (current.next) current = current.next;
     current.next = newNode;
   }
+  this.count += 1;
   return this;
 }
 
 Stack.prototype.pop = function() {
-  if (!this.head) return this;
+  if (!this.head) throw new Error ('Cannot pop from empty stack');
   
   if (this.head.next === null) {
     this.head = null;
-    return this;
+  } else {
+    let current = this.head;
+    let previous = null;
+
+    while (current.next) {
+      previous = current;
+      current = current.next;
+    }
+    previous.next = null;
   }
+  this.count -= 1;
+  return this;
+}
 
+Stack.prototype.peek = function() {
+  return this.head.value;
+}
+
+Stack.prototype.print = function() {
   let current = this.head;
-  let previous = null;
-
-  while (current.next) {
-    previous = current;
+  while (current) {
+    console.log(current.value);
     current = current.next;
   }
-  previous.next = null;
-
   return this;
 }
 
@@ -47,7 +61,7 @@ stack1.push(13);
 stack1.push(15);
 stack1.push(25);
 stack1.pop();
-stack1.pop();
-stack1.pop();
+stack1.print();
+console.log(stack1.peek());
 console.log(JSON.stringify(stack1));
 
