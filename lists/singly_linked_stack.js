@@ -25,20 +25,14 @@ Stack.prototype.push = function(value) {
 }
 
 Stack.prototype.pop = function() {
-  if (!this.head) throw new Error ('Cannot pop empty stack');
-  
-  if (this.head.next === null) {
-    this.head = null;
-  } else {
+  if (!this.count) throw new Error ('Cannot pop empty stack');
+  if (this.count === 1) this.head = null;
+  else {
     let current = this.head;
-    let previous = null;
-
-    while (current.next) {
-      previous = current;
-      current = current.next;
-    }
-    previous.next = null;
+    while (current.next.next) current = current.next;
+    current.next = null;
   }
+
   this.count -= 1;
   return this;
 }
@@ -52,6 +46,15 @@ Stack.prototype.print = function() {
   let current = this.head;
   while (current) {
     console.log(current.value);
+    current = current.next;
+  }
+  return this;
+}
+
+Stack.prototype.iterate = function(cb) {
+  let current = this.head;
+  while (current) {
+    cb(current.value);
     current = current.next;
   }
   return this;
