@@ -7,40 +7,59 @@ let Node = function(value) {
   this.next = null;
 }
 
-let LinkedList = function() {
+let SinglyLinkedList = function() {
   this.head = null;
   this.count = 0;
 }
 
-LinkedList.prototype.length = function() {
+SinglyLinkedList.prototype.length = function() {
   return this.count;
 }
 
-LinkedList.prototype.push = function(value) {
-  return this.insert(value, this.count + 1);
+SinglyLinkedList.prototype.iterate = function(callback) {
+  let current = this.head;
+  while (current) {
+    callback(current.value);
+    current = current.next;
+  }
 }
 
-LinkedList.prototype.pop = function() {
-  if (!this.count) throw new Error('Cannot pop empty list');
-  if (this.count === 1) this.head = null;
-  else if (this.count === 2) this.head.next = null;
-  else {
-    let previous = this.head;
-    let current = this.head.next;
+SinglyLinkedList.prototype.reverse = function() {
+  let current = this.head;
+  let previous = null;
+  let temp;
 
-    while (current.next) {
-      previous = current;
-      current = current.next;
-    }
-
-    previous.next = null;
+  while (current) {
+    temp = current.next;
+    current.next = previous;
+    previous = current;
+    current = temp;
   }
 
-  this.count -= 1;
+  this.head = previous
+}
+
+SinglyLinkedList.prototype.print = function() {
+  let current = this.head;
+  while (current) {
+    console.log(current.value);
+    current = current.next;
+  }
   return this;
 }
 
-LinkedList.prototype.insert = function(value, index) {
+SinglyLinkedList.prototype.getIndex = function(value) {
+  let index = 1;
+  let current = this.head;
+  while (current) {
+    if (current.value === value) return index;
+    current = current.next;
+    index += 1;
+  }
+  return 'none';
+}
+
+SinglyLinkedList.prototype.insert = function(value, index) {
   if (index < 1) throw new Error('Cannot insert into list position less than one'); 
   if (index > this.count + 1) throw new Error('Cannot insert into position beyond list size');
   if (index === 1) return this.unshift(value);
@@ -64,7 +83,7 @@ LinkedList.prototype.insert = function(value, index) {
   return this;
 }
 
-LinkedList.prototype.unshift = function(value) {
+SinglyLinkedList.prototype.unshift = function(value) {
   let newNode = new Node(value);
 
   if (!this.count) this.head = newNode;
@@ -77,7 +96,7 @@ LinkedList.prototype.unshift = function(value) {
   return this;
 }
 
-LinkedList.prototype.shift = function() {
+SinglyLinkedList.prototype.shift = function() {
   if (!this.count) throw new Error('Cannot shift empty list');
   if (this.count === 1) this.head = null;
   else this.head = this.head.next;
@@ -85,7 +104,7 @@ LinkedList.prototype.shift = function() {
   return this
 }
 
-LinkedList.prototype.delete = function(value) {
+SinglyLinkedList.prototype.delete = function(value) {
   if (!this.count) return 'none';
   let current = this.head;
   let previous = null;
@@ -103,47 +122,23 @@ LinkedList.prototype.delete = function(value) {
   return 'none';
 }
 
-LinkedList.prototype.getIndex = function(value) {
-  let index = 1;
-  let current = this.head;
-  while (current) {
-    if (current.value === value) return index;
-    current = current.next;
-    index += 1;
-  }
-  return 'none';
+SinglyLinkedList.prototype.push = function(value) {
+  return this.insert(value, this.count + 1);
 }
 
-LinkedList.prototype.iterate = function(callback) {
-  let current = this.head;
-  while (current) {
-    callback(current.value);
-    current = current.next;
-  }
-}
-
-LinkedList.prototype.reverse = function() {
-  let current = this.head;
-  let previous = null;
-  let temp;
-
-  while (current) {
-    temp = current.next;
-    current.next = previous;
-    previous = current;
-    current = temp;
+SinglyLinkedList.prototype.pop = function() {
+  if (!this.count) throw new Error('Cannot pop empty list');
+  if (this.count === 1) this.head = null;
+  else if (this.count === 2) this.head.next = null;
+  else {
+    let current = this.head;
+    while (current.next.next) current = current.next;
+    current.next = null;
   }
 
-  this.head = previous
-}
-
-LinkedList.prototype.print = function() {
-  let current = this.head;
-  while (current) {
-    console.log(current.value);
-    current = current.next;
-  }
+  this.count -= 1;
   return this;
 }
 
-var list1 = new LinkedList();
+var list1 = new SinglyLinkedList();
+
