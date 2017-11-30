@@ -59,30 +59,6 @@ SinglyLinkedList.prototype.getIndex = function(value) {
   return 'none';
 }
 
-SinglyLinkedList.prototype.insert = function(value, index) {
-  if (index < 1) throw new Error('Cannot insert into list position less than one'); 
-  if (index > this.count + 1) throw new Error('Cannot insert into position beyond list size');
-  if (index === 1) return this.unshift(value);
-
-  let newNode = new Node(value);
-  let count = 1;
-  let current = this.head;
-  let previous = null;
-
-  while (count <= index) {
-    if (count === index) {
-      previous.next = newNode;
-      previous.next.next = current;
-      break;
-    }
-    previous = current;
-    current = current.next;
-    count += 1;
-  }
-  this.count += 1;
-  return this;
-}
-
 SinglyLinkedList.prototype.unshift = function(value) {
   let newNode = new Node(value);
 
@@ -101,29 +77,7 @@ SinglyLinkedList.prototype.shift = function() {
   if (this.count === 1) this.head = null;
   else this.head = this.head.next;
   this.count -= 1;
-  return this
-}
-
-SinglyLinkedList.prototype.delete = function(value) {
-  if (!this.count) return 'none';
-  let current = this.head;
-  let previous = null;
-  while (current) {
-    if (current.value === value) {
-      if (!previous) return this.shift();
-      else if (!current.next) previous.next = null;
-      else previous.next = current.next;
-      this.count -= 1;
-      return this;
-    }
-    previous = current;
-    current = current.next;
-  }
-  return 'none';
-}
-
-SinglyLinkedList.prototype.push = function(value) {
-  return this.insert(value, this.count + 1);
+  return this;
 }
 
 SinglyLinkedList.prototype.pop = function() {
@@ -140,5 +94,58 @@ SinglyLinkedList.prototype.pop = function() {
   return this;
 }
 
-var list1 = new SinglyLinkedList();
+SinglyLinkedList.prototype.push = function(value) {
+  let newNode = new Node(value);
+  if (!this.count) this.head = newNode;
+  else if (this.count === 1) this.head.next = newNode;
+  else {
+    let current = this.head;
+    while (current.next.next) current = current.next;
+    current.next.next = newNode;
+  }
+  this.count += 1;
+  return this;
+}
 
+SinglyLinkedList.prototype.insert = function(value, index) {
+  if (index < 1) throw new Error('Invalid insert index'); 
+  if (index > this.count + 1) throw new Error('Invalid insert index');
+  if (index === 1) return this.unshift(value);
+  if (index === this.count + 1) return this.push(value);
+  else {
+    let newNode = new Node(value);
+    let count = 1;
+    let current = this.head;
+
+    while (count < index - 1) {
+      current = current.next;
+      count += 1;
+    }
+    let temp = current.next;
+    current.next = newNode;
+    current.next.next = temp;
+  }
+
+  this.count += 1;
+  return this;
+}
+
+SinglyLinkedList.prototype.delete = function(value) {
+  if (!this.count) throw new Error('Cannot delete from empty list');
+  let current = this.head;
+  let previous = null;
+  while (current) {
+    if (current.value === value) {
+      if (!previous) return this.shift();
+      else if (!current.next) previous.next = null;
+      else previous.next = current.next;
+      this.count -= 1;
+      return this;
+    }
+    previous = current;
+    current = current.next;
+  }
+  return 'none';
+}
+
+var list1 = new SinglyLinkedList();
