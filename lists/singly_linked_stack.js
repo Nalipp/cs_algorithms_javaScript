@@ -25,7 +25,7 @@ Stack.prototype.push = function(value) {
 }
 
 Stack.prototype.pop = function() {
-  if (!this.head) throw new Error ('Cannot pop from empty stack');
+  if (!this.head) throw new Error ('Cannot pop empty stack');
   
   if (this.head.next === null) {
     this.head = null;
@@ -44,6 +44,7 @@ Stack.prototype.pop = function() {
 }
 
 Stack.prototype.peek = function() {
+  if (!this.head) throw new Error ('Cannot peek empty stack'); 
   return this.head.value;
 }
 
