@@ -137,36 +137,13 @@ LinkedList.prototype.reverse = function() {
   this.head = previous
 }
 
+LinkedList.prototype.print = function() {
+  let current = this.head;
+  while (current) {
+    console.log(current.value);
+    current = current.next;
+  }
+  return this;
+}
+
 var list1 = new LinkedList();
-list1.push(12);
-list1.push(22);
-list1.push(34);
-list1.push(87);
-list1.push(3);
-// console.log(list1.length());
-list1.reverse();
-// console.log(list1.length());
-console.log(JSON.stringify(list1));
-
-// list1.iterate(function(val) {
-//   console.log(val * 2);
-// });
-
-// console.log(list1.getIndex(100));
-// console.log(list1.getIndex(22));
-
-// list1.delete(22);
-// list1.delete(12);
-// list1.insert(66, 1);
-// list1.insert(66, -1);
-// list1.insert(66, 3);
-// list1.insert(66, 5);
-// list1.insert(66, 6);
-// list1.insert(66, 8);
-
-// console.log(list1.getIndex(34));
-// list1.insert(66, 2);
-// list1.delete(12);
-
-// list1.shift();
-// list1.unshift(20);

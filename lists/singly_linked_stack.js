@@ -58,11 +58,3 @@ Stack.prototype.print = function() {
 }
 
 let stack1 = new Stack();
-stack1.push(13);
-stack1.push(15);
-stack1.push(25);
-stack1.pop();
-stack1.print();
-console.log(stack1.peek());
-console.log(JSON.stringify(stack1));
-

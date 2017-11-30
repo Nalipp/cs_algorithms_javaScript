@@ -85,16 +85,26 @@ LinkedList.prototype.shift = function() {
   return this;
 }
 
+LinkedList.prototype.print = function() {
+  let current = this.head;
+  while (current) {
+    console.log(current.val);
+    current = current.next;
+  }
+  return this;
+}
+
 let list1 = new LinkedList();
 list1.push(10);
 list1.push(20);
 list1.push(30);
-// console.log(list1.length()); 
-// list1.unshift(5);
-// list1.unshift();
+list1.print();
+console.log(list1.length()); 
+list1.unshift(5);
+list1.unshift();
 list1.shift();
 list1.shift();
 list1.shift();
-// console.log(list1.length()); 
+console.log(list1.length()); 
 console.log(list1);
 

@@ -60,13 +60,3 @@ DoublyLinkedStack.prototype.pop = function() {
 }
 
 let stack1 = new DoublyLinkedStack();
-stack1.push(12);
-stack1.push(23);
-stack1.push(44);
-stack1.push(56);
-console.log('length', stack1.length());
-stack1.pop();
-console.log('length', stack1.length());
-stack1.print();
-console.log(stack1);
-
