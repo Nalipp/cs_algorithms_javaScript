@@ -18,14 +18,60 @@ DoublyLinkedList.prototype.length = function() {
   return this.size;
 }
 
+DoublyLinkedList.prototype.print = function() {
+  let current = this.head;
+  while (current) {
+    console.log(current.val);
+    current = current.next;
+  }
+  return this;
+}
+
+DoublyLinkedList.prototype.getIndex = function(val) {
+  let count = 1;
+  let current = this.head;
+  while (current) {
+    if (current.val === val) return count;
+    current = current.next;
+    count += 1;
+  }
+  return 'none';
+}
+
+DoublyLinkedList.prototype.iterate = function(cb) {
+  let current = this.head;
+  while (current) {
+    cb(current.val);
+    current = current.next;
+  }
+}
+
+DoublyLinkedList.prototype.reverse = function() {
+  let current = this.head;
+  let previous = null;
+  while (current) {
+    next = current.next;
+    current.next = previous;
+    previous = current;
+    current = next;
+  }
+
+  let temp = this.head;
+  this.head = this.tail;
+  this.tail = temp;
+
+  return this;
+}
+
+
 DoublyLinkedList.prototype.push = function(value) {
   let newNode = new Node(value);
-  if (this.size) {
+  if (!this.size) {
+    this.head = newNode;
+    this.tail = this.head;
+  } else {
     newNode.previous = this.tail;
     this.tail.next = newNode;
-    this.tail = newNode;
-  } else {
-    this.head = newNode;
     this.tail = newNode;
   }
 
@@ -34,14 +80,10 @@ DoublyLinkedList.prototype.push = function(value) {
 }
 
 DoublyLinkedList.prototype.pop = function() {
-  if (!this.count) throw new Error('Cannot remove from empty list');
+  if (!this.size) throw new Error('Cannot remove from empty list');
   if (this.size === 1) {
     this.head = null;
     this.tail = null;
-  } 
-  else if (this.size === 2) {
-    this.tail = this.head;
-    this.tail.next = null;
   } 
   else {
     this.tail = this.tail.previous;
@@ -63,7 +105,7 @@ DoublyLinkedList.prototype.unshift = function(value) {
     this.head = newNode;
   }
 
-  this.size -= 1;
+  this.size += 1;
   return this;
 }
 
@@ -85,32 +127,43 @@ DoublyLinkedList.prototype.shift = function() {
   return this;
 }
 
-DoublyLinkedList.prototype.print = function() {
+DoublyLinkedList.prototype.insert = function(val, pos) {
+  if (pos < 1) throw new Error('Cannot insert before list');
+  if (pos > this.size) throw new Error('Cannot insert beyond list');
+  if (pos === 1) return this.unshift(val);
+  if (pos === this.size) return this.push(val);
+  let newNode = new Node(val);
+  let count = 1;
   let current = this.head;
-  while (current) {
-    console.log(current.val);
+
+  while (count < pos) {
     current = current.next;
+    count += 1;
   }
+  newNode.next = current.next;
+  newNode.previous = current;
+  current.next.previous = newNode;
+  current.next = newNode;
+
+  this.size += 1;
   return this;
 }
 
-DoublyLinkedList.prototype.reverse = function() {
+DoublyLinkedList.prototype.delete = function(val) {
+  if (!this.size) throw new Error('Cannot delete from empty list');
   let current = this.head;
-  let previous = null;
-  let next = this.head.next;
-
   while (current) {
-    let temp = current.next;
-    current.next = previous;
-    current.previous = next;
-    previous = current;
-    next = current.next;
-    current = temp;
+    if (current.val = val) {
+      if (!current.previous) return this.shift();
+      if (!current.next) return this.pop();
+      current.previous.next = current.next;
+      current.next.previous = current.previous
+      this.size -= 1;
+      return this;
+    }
+    current = current.next;
   }
-
-  let temp = this.head;
-  this.head = this.tail;
-  this.tail = temp;
+  return this;
 }
 
 let list1 = new DoublyLinkedList();

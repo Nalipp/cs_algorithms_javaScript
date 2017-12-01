@@ -37,6 +37,8 @@ SinglyLinkedList.prototype.reverse = function() {
   }
 
   this.head = previous
+
+  return this;
 }
 
 SinglyLinkedList.prototype.print = function() {
