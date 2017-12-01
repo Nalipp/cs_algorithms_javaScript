@@ -153,7 +153,7 @@ DoublyLinkedList.prototype.delete = function(val) {
   if (!this.size) throw new Error('Cannot delete from empty list');
   let current = this.head;
   while (current) {
-    if (current.val = val) {
+    if (current.val === val) {
       if (!current.previous) return this.shift();
       if (!current.next) return this.pop();
       current.previous.next = current.next;
