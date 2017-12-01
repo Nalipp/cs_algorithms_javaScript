@@ -45,25 +45,25 @@ BST.prototype.add = function(val) {
 }
 
 BST.prototype.contains = function(val) {
-  if (!this.root) return false;
   let node = this.root;
   while (node) {
     if (node.val === val) return true;
     if (val < node.val && node.left) node = node.left; 
     else if (val > node.val && node.right) node = node.right;
-    else return false;
+    else break;
   }
+  return false;
 }
 
 BST.prototype.getMin = function() {
-  if (!this.root) return false;
+  if (!this.root) return null;
   let node = this.root;
   while (node.left) node = node.left;
   return node.val;
 }
 
 BST.prototype.getMax = function() {
-  if (!this.root) return false;
+  if (!this.root) return null;
   let node = this.root;
   while (node.right) node = node.right;
   return node.val;
@@ -80,9 +80,9 @@ BST.prototype.getNode = function(val) {
   }
 }
 
-BST.prototype.BFS = function(cb, startNode) {
-  let root = startNode ? startNode : this.root;
-  let queue = [root];
+BST.prototype.BFSIterate = function(cb) {
+  if (!this.root) return null;
+  let queue = [this.root];
   while (queue.length) {
     let node = queue.shift();
     cb(node);
@@ -95,6 +95,12 @@ BST.prototype.print = function(startNode) {
   this.BFS(v => console.log(v.val), startNode);
 }
 
+BST.prototype.getHeight = function(node) {
+  if (node === null) throw new Error('Cannot getHeight of null node');
+  if (!node) node = this.root;
+  return this._getHeight(node);
+}
+
 BST.prototype._getHeight = function(node) {
   if (!node) return -1;
   let left = this._getHeight(node.left);
@@ -102,12 +108,11 @@ BST.prototype._getHeight = function(node) {
   return Math.max(left, right) + 1;
 }
 
-BST.prototype.getHeight = function(node) {
-  if (node === null) {
-    throw new Error('Cannot getHeight of null node');
-  }
-  if (!node) node = this.root;
-  return this._getHeight(node);
+BST.prototype.DFSIterate = function(cb, type) {
+  if (!this.root) return null;
+  if (!type) return this.inOrder(cb, this.root);
+  else if (type === 'preOrder') return this.preOrder(cb, this.root)
+  else return this.postOrder(cb, this.root)
 }
 
 BST.prototype.preOrder = function(cb, node) {
@@ -133,24 +138,3 @@ BST.prototype.postOrder = function(cb, node) {
 }
 
 let bst1 = new BST();
-bst1.add(35);
-bst1.add(23);
-bst1.add(48);
-bst1.add(17);
-bst1.add(20);
-bst1.add(29);
-bst1.add(32);
-bst1.add(33);
-bst1.add(27);
-
-let node = bst1.getNode(35);
-// bst1.preOrder(v => console.log(v.val), node);
-// bst1.inOrder(v => console.log(v.val), node);
-bst1.postOrder(v => console.log(v.val), node);
-
-
-
-// let node = bst1.getNode(35);
-// console.log(bst1.getHeight(node));
-
-// console.log(JSON.stringify(bst1));
