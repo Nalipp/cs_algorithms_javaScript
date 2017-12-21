@@ -17,4 +17,5 @@ let binarySearch = (inputArray, value) => {
 }
 
 testList = [1,3,9,11,15,19,29,31]
+testVal1 = 1;
 console.log(binarySearch(testList, testVal1));
